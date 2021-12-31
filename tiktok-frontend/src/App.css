@@ -4,14 +4,15 @@ html {
 
 .app {
   height: 100vh;
-  background-color: black;
+  background-color: rgb(0, 0, 0);
   display: grid;
   place-items: center;
+  overflow: scroll;
 }
 
 .app__videos {
   position: relative;
-  height: 800px;
+  height: 100vh;
   width: 80%;
   max-width: 500px;
   border-radius: 20px;
