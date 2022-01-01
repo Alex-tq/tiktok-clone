@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import VideoFooter from "./VideoFooter";
 import "./Video.css";
+import VideoSidebar from "./VideoSidebar.js";
 
 function Videos() {
   const videoRef = useRef(null);
@@ -26,6 +27,7 @@ function Videos() {
         src="https://player.vimeo.com/external/463929634.sd.mp4?s=af141dfab13d19b090243b6eb2553c257cd43d75&profile_id=165&oauth2_token_id=57447761"
       ></video>
       <VideoFooter />
+      <VideoSidebar />
     </div>
   );
 }
