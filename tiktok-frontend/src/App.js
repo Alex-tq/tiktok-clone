@@ -1,29 +1,38 @@
+import { useState, useEffect } from "react";
 import "./App.css";
 import Videos from "./Videos";
 
 function App() {
+  const [videos, setVideos] = useState([]);
+
+  const fetchData = async () => {
+    const res = await fetch(
+      `https://tiktok-clone-backend2.herokuapp.com/v2/posts`
+    );
+    const data = await res.json();
+    setVideos(data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const videoList = videos.map((video) => (
+    <Videos
+      key={video.channel}
+      channel={video.channel}
+      song={video.song}
+      description={video.description}
+      likes={video.likes}
+      shares={video.shares}
+      messages={video.messages}
+      url={video.url}
+    />
+  ));
+
   return (
     <div className="app">
-      <div className="app__videos">
-        <Videos
-          channel={"someUser"}
-          song={"That song"}
-          description={"This is a description"}
-          likes={100}
-          shares={10}
-          messages={77}
-          url="https://player.vimeo.com/external/463929634.sd.mp4?s=af141dfab13d19b090243b6eb2553c257cd43d75&profile_id=165&oauth2_token_id=57447761"
-        />
-        <Videos
-          channel={"someUser"}
-          song={"That song"}
-          description={"This is a description"}
-          likes={100}
-          shares={10}
-          messages={77}
-          url="https://player.vimeo.com/external/463929634.sd.mp4?s=af141dfab13d19b090243b6eb2553c257cd43d75&profile_id=165&oauth2_token_id=57447761"
-        />
-      </div>
+      <div className="app__videos">{videoList}</div>
     </div>
   );
 }
