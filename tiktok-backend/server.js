@@ -1,6 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import data from "./data.js";
+import VideosModel from "./postModel.js";
 
 dotenv.config();
 
@@ -8,15 +10,42 @@ dotenv.config();
 const PORT = process.env.PORT || 8001;
 const app = express();
 
-// DB config
-const URI = process.env.MONGODB_URI;
-
 //Middleware
 app.use(express.json());
+
+// DB config
+const URI = process.env.MONGODB_URI;
+mongoose.connect(URI, {
+  useUnifiedTopology: true,
+});
 
 //Api routes
 app.get("/", (req, res) => {
   res.status(200).send("hello tiktok");
+});
+app.get("/v1/posts", (req, res) => {
+  res.status(200).send(data);
+});
+app.get("/v2/posts", (req, res) => {
+  VideosModel.find((err, data) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send(data);
+    }
+  });
+});
+
+app.post("/v2/posts", (req, res) => {
+  const dbVideos = req.body;
+
+  VideosModel.create(dbVideos, (err, data) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(201).send(data);
+    }
+  });
 });
 
 //Server Listener
